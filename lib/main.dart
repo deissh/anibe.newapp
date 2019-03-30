@@ -4,7 +4,11 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:anibe_newapp/pages/index.dart';
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  Widget isLogin() {
+    // todo: add user verification and open login page
+    return TabsPage();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
         return new MaterialApp(
           title: 'Anibe Manga',
           theme: theme,
-          home: TabsPage(),
+          home: isLogin(),
         );
       }
     );
