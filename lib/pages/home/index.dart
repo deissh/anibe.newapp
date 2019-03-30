@@ -32,9 +32,8 @@ class _HomePageState extends State<HomePage> {
       ],
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: CustomScrollView(
+    return Container(
+      child: CustomScrollView(
         slivers: <Widget>[
           
         ],
