@@ -14,14 +14,57 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: <Widget>[
-        CircleAvatar(
-          backgroundImage: new CachedNetworkImageProvider(widget.user.picture),
+        Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  CircleAvatar(
+                    minRadius: 60,
+                    backgroundColor: Theme.of(context).textSelectionColor,
+                    child: CircleAvatar(
+                      backgroundImage: new CachedNetworkImageProvider(widget.user.picture),
+                      minRadius: 55,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text(widget.user.name, style: TextStyle(fontSize: 22.0, color: Colors.white),),
+              Text(widget.user.desc, style: TextStyle(fontSize: 14.0, color: Colors.white),)
+            ],
+          ),
         ),
-        Text(widget.user.id),
-        Text(widget.user.name),
-        Text(widget.user.email)
+
+        ListTile(
+          title: Text('Любимое'),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Читаю'),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Буду читать'),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Прочитано'),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Брошено'),
+        ),
+        Divider(),
       ],
     );
   }

@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-
 import 'manga.dart';
 
 class CurrentUser {
@@ -112,19 +108,6 @@ class CurrentUser {
     }
     data['createdAt'] = this.createdAt;
     return data;
-  }
-
-  static Future<CurrentUser> fromApi() async {
-    // todo: add auth
-    http.Response res = await http.get('https://api.anibe.ru/users/me');
-
-    if (res.statusCode == 200) {
-    // If server returns an OK response, parse the JSON
-      return CurrentUser.fromJson(json.decode(res.body));
-    } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load');
-    }
   }
 }
 

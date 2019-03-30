@@ -8,15 +8,20 @@ import '../model/user.dart';
 
 class DrawerItem {
   String title;
+  // icon
   IconData icon;
-  DrawerItem(this.title, this.icon);
+  // enable show in menu
+  bool show = true;
+  DrawerItem(this.title, this.icon, this.show);
 }
 
 class TabsPage extends StatefulWidget {
   final drawerItems = [
-    new DrawerItem("Главная", Icons.home),
-    new DrawerItem("Поиск", Icons.search),
-    new DrawerItem("Уведомления", Icons.notifications),
+    new DrawerItem("Профиль", Icons.notifications, false),
+    new DrawerItem("Главная", Icons.home, true),
+    new DrawerItem("Поиск", Icons.search, true),
+    new DrawerItem("Уведомления", Icons.notifications, true),
+    new DrawerItem("Выйти", Icons.exit_to_app, true),
   ];
 
   final CurrentUser user = CurrentUser.fromJson({
@@ -273,14 +278,16 @@ class _TabsPageState extends State<TabsPage> {
     var drawerOptions = <Widget>[];
     for (var i = 0; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];
-      drawerOptions.add(
-        new ListTile(
-          leading: new Icon(d.icon),
-          title: new Text(d.title),
-          selected: i == _selectedDrawerIndex,
-          onTap: () => _onSelectItem(i),
-        )
-      );
+      if (d.show) {
+        drawerOptions.add(
+          new ListTile(
+            leading: new Icon(d.icon),
+            title: new Text(d.title),
+            selected: i == _selectedDrawerIndex,
+            onTap: () => _onSelectItem(i),
+          )
+        );
+      }
     }
     drawerOptions.add(new Divider());
     drawerOptions.add(new SwitchListTile(
@@ -296,6 +303,7 @@ class _TabsPageState extends State<TabsPage> {
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title
         title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
+        elevation: 0,
       ),
       drawer: new Drawer(
         child: new Column(
