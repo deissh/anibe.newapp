@@ -9,12 +9,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          
-        ],
-      ),
+    return ListView(
+      children: <Widget>[
+        
+      ],
     );
   }
 }

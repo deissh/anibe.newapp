@@ -1,3 +1,4 @@
+import 'package:anibe_newapp/pages/login/login.dart';
 import 'package:anibe_newapp/pages/user/index.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,13 +18,13 @@ class DrawerItem {
 
 class TabsPage extends StatefulWidget {
   final drawerItems = [
-    new DrawerItem("Профиль", Icons.notifications, false),
     new DrawerItem("Главная", Icons.home, true),
+    new DrawerItem("Профиль", Icons.notifications, false),
     new DrawerItem("Поиск", Icons.search, true),
     new DrawerItem("Уведомления", Icons.notifications, true),
-    new DrawerItem("Выйти", Icons.exit_to_app, true),
   ];
 
+  bool isLogin = false;
   final CurrentUser user = CurrentUser.fromJson({
     "id": "5c533dbb889e940019ec1d9c",
     "online": true,
@@ -255,9 +256,9 @@ class _TabsPageState extends State<TabsPage> {
   _getDrawerItemWidget(int pos) {
     switch (pos) {
       case 0:
-        return new UserPage(widget.user);
-      case 1:
         return new HomePage();
+      case 1:
+        return new UserPage(widget.user);
       case 2:
         return new Container();
       case 3:
@@ -271,6 +272,42 @@ class _TabsPageState extends State<TabsPage> {
   _onSelectItem(int index) {
     setState(() => _selectedDrawerIndex = index);
     Navigator.of(context).pop(); // close the drawer
+  }
+
+  Widget _getAccauntDrawer(BuildContext context) {
+    if (widget.isLogin) {
+      return new GestureDetector(
+        onTap: () {
+          _onSelectItem(1);
+        },
+        child: new UserAccountsDrawerHeader(
+          currentAccountPicture: CircleAvatar(
+            backgroundImage: new CachedNetworkImageProvider(widget.user.picture),
+          ),
+          accountName: new Text(widget.user.name),
+          accountEmail: Text(widget.user.email),
+        ),
+      );
+    } else {
+      return new GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return LoginPage();
+            }),
+          );
+        },
+        child: new UserAccountsDrawerHeader(
+          currentAccountPicture: CircleAvatar(
+            backgroundColor: Theme.of(context).textSelectionColor,
+            child: Text('+'),
+          ),
+          accountName: Text('Anibe'),
+          accountEmail: Text('Не авторизован'),
+        ),
+      );
+    }
   }
 
   @override
@@ -289,9 +326,21 @@ class _TabsPageState extends State<TabsPage> {
         );
       }
     }
+
+    if (widget.isLogin) {
+      drawerOptions.add(new ListTile(
+        leading: Icon(Icons.exit_to_app),
+        title: Text('Выйти'),
+        onTap: () {
+          setState(() {
+            widget.isLogin = false;
+          });
+        },
+      ));
+    }
     drawerOptions.add(new Divider());
     drawerOptions.add(new SwitchListTile(
-      title: Text('Темная тема'),
+      title: Text('Темная тема β'),
       value: Theme.of(context).brightness == Brightness.dark,
       onChanged: (bool newv) {
         DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
@@ -308,20 +357,7 @@ class _TabsPageState extends State<TabsPage> {
       drawer: new Drawer(
         child: new Column(
           children: <Widget>[
-            new GestureDetector(
-              onTap: () {
-                _onSelectItem(0);
-                print(_selectedDrawerIndex);
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(widget.user,)));
-              },
-              child: new UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: new CachedNetworkImageProvider(widget.user.picture),
-                ),
-                accountName: new Text(widget.user.name),
-                accountEmail: Text(widget.user.email),
-              ),
-            ),
+            _getAccauntDrawer(context),
             new Column(children: drawerOptions),
           ],
         ),
