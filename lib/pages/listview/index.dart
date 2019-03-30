@@ -1,3 +1,4 @@
+import 'package:anibe_newapp/widgets/manga.card.dart';
 import 'package:flutter/material.dart';
 import 'package:anibe_newapp/model/manga.dart';
 
@@ -13,7 +14,15 @@ class ListViewPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(this.type),
       ),
-      body: Column(),
+      body: ListView.builder(
+        itemBuilder: _buildListView,
+        itemCount: manga.length,
+      )
     );
+  }
+
+  Widget _buildListView(BuildContext context, int index) {
+    ShortManga item = manga[index];
+    return MangaCard(item);
   }
 }

@@ -64,7 +64,7 @@ class _UserPageState extends State<UserPage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                return ListViewPage("Читаю", widget.user.favorite);
+                return ListViewPage("Читаю", widget.user.inprogress);
               })
             );
           },
@@ -76,7 +76,7 @@ class _UserPageState extends State<UserPage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                return ListViewPage("Буду читать", widget.user.favorite);
+                return ListViewPage("Буду читать", widget.user.willread);
               })
             );
           },
@@ -88,8 +88,8 @@ class _UserPageState extends State<UserPage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                return ListViewPage("Прочитано", widget.user.favorite);
-              })
+                return ListViewPage("Прочитано", widget.user.readed);
+              }),
             );
           },
         ),
@@ -100,7 +100,7 @@ class _UserPageState extends State<UserPage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                return ListViewPage("Брошено", widget.user.favorite);
+                return ListViewPage("Брошено", widget.user.thrown);
               })
             );
           },

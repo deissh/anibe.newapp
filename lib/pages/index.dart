@@ -315,11 +315,8 @@ class _TabsPageState extends State<TabsPage> {
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(widget.user,)));
               },
               child: new UserAccountsDrawerHeader(
-                currentAccountPicture: Hero(
-                  tag: 'UserAvatar',
-                  child: CircleAvatar(
-                    backgroundImage: new CachedNetworkImageProvider(widget.user.picture),
-                  ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: new CachedNetworkImageProvider(widget.user.picture),
                 ),
                 accountName: new Text(widget.user.name),
                 accountEmail: Text(widget.user.email),
