@@ -1,4 +1,3 @@
-import 'package:anibe_newapp/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 
