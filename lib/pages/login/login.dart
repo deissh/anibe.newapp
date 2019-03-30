@@ -1,8 +1,14 @@
 
+import 'package:anibe_newapp/api/index.dart';
+import 'package:anibe_newapp/pages/index.dart';
 import 'package:anibe_newapp/pages/login/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
+  var Email;
+  var Password;
+
 
   Widget _buildPageContent(BuildContext context) {
     return Container(
@@ -51,10 +57,11 @@ class LoginPage extends StatelessWidget {
                       SizedBox(height: 90.0,),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextField(
-                          style: TextStyle(color: Colors.blue),
+                        child: TextFormField(
+                          controller: Email,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                            hintText: "Никнейм",
+                            hintText: "Почта",
                             border: InputBorder.none,
                             icon: Icon(Icons.email,)
                           ),
@@ -63,8 +70,9 @@ class LoginPage extends StatelessWidget {
                       Container(child: Divider(color: Theme.of(context).primaryColor,), padding: EdgeInsets.only(left: 20.0,right: 20.0, bottom: 10.0),),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextField(
-                          style: TextStyle(color: Colors.blue),
+                        child: TextFormField(
+                          onSaved: Password,
+                          obscureText: true,
                           decoration: InputDecoration(
                             hintText: "Пароль",
                             border: InputBorder.none,
@@ -90,7 +98,38 @@ class LoginPage extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: RaisedButton(
-                    onPressed: (){},
+                    onPressed: () async{
+                      Api client = await Api().init();
+
+                      try {
+                        await client.user.login(Email.text, Password.text);
+                      } catch (e) {
+                        print(e);
+                        return showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Ошибка при авторизации'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return TabsPage();
+                        }),
+                      );
+                    },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
                     child: Text("Войти", style: TextStyle(color: Colors.white70)),
                     color: Theme.of(context).primaryColor,

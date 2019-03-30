@@ -3,9 +3,12 @@ import 'package:anibe_newapp/pages/user/index.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home/index.dart';
 import '../model/user.dart';
+
+import '../api/index.dart';
 
 class DrawerItem {
   String title;
@@ -25,7 +28,7 @@ class TabsPage extends StatefulWidget {
   ];
 
   bool isLogin = false;
-  final CurrentUser user = CurrentUser.fromJson({
+  CurrentUser user = CurrentUser.fromJson({
     "id": "5c533dbb889e940019ec1d9c",
     "online": true,
     "name": "deissh",
@@ -252,6 +255,27 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   int _selectedDrawerIndex = 0;
+
+    @override
+  Future initState() async {
+    super.initState();
+    await _load();
+  }
+
+  Future _load() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    Api client = await Api().init();
+
+    try {
+      widget.user = await client.user.me();
+    } catch (e) {
+      print(e);
+      setState(() {
+        widget.isLogin = false;
+      });
+    }
+  }
 
   _getDrawerItemWidget(int pos) {
     switch (pos) {
