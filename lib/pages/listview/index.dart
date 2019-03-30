@@ -1,4 +1,4 @@
-import 'package:anibe_newapp/widgets/manga.card.dart';
+import 'package:anibe_newapp/components/manga.card.dart';
 import 'package:flutter/material.dart';
 import 'package:anibe_newapp/model/manga.dart';
 

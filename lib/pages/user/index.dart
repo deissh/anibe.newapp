@@ -2,9 +2,9 @@ import 'package:anibe_newapp/pages/listview/index.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../model/user.dart';
+import '../../model/currentuser.dart';
 class UserPage extends StatefulWidget {
-  final CurrentUser user;
+  final AnibeCurrentUser user;
 
   UserPage(this.user);
 
